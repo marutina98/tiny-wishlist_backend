@@ -9,6 +9,37 @@ import IDecodedToken from '../interfaces/decoded-token.interface';
 
 class CUser {
 
+  public getUser = async (req: Request, res: Response, next: Function) => {
+    
+    try {
+
+      const id = req.params.id;
+
+      if (!id) {
+        const error = (new Error('Valid Id not found.')) as IError;
+        error.status = 404;
+        throw error;
+      }
+
+      // Get User via Id and Omit password
+
+      const user = await prisma.user.findUniqueOrThrow({
+        where: {
+          id
+        },
+        omit: {
+          password: true
+        }
+      });
+
+      res.status(200).json(user);
+
+    } catch (error: unknown) {
+      return next(error);
+    }
+
+  }
+
   public getAuthenticatedUser = async (req: Request, res: Response, next: Function) => {
 
     try {
@@ -46,12 +77,26 @@ class CUser {
         throw error;
       }
 
+      // In User include Lists, Groups and Items
+
       const user = await prisma.user.findUniqueOrThrow({
         where: {
           email
         },
         omit: { 
           password: true
+        },
+        include: {
+          lists: {
+            include: {
+              priority: true,
+              groups: {
+                include: {
+                  items: true
+                }
+              }
+            }
+          }
         }
       });
 

@@ -12,5 +12,6 @@ import MIsAuthenticated from '../middlewares/auth.middleware';
 const router = express.Router();
 
 router.get('/auth', MIsAuthenticated, (req: Request, res: Response, next: Function) => CUser.getAuthenticatedUser(req, res, next));
+router.get('/user/:id', (req: Request, res: Response, next: Function) => CUser.getUser(req, res, next));
 
 export default router;
