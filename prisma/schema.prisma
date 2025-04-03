@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+}
+
+datasource db {
+  provider        = "sqlite"
+  url             = env("DATABASE_URL")
+}
+
+model User {
+  id              String @id @default(uuid())
+  email           String @unique
+  username        String @unique
+  password        String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  lists           List[]
+}
+
+model List {
+  id              String @id @default(uuid())
+  title           String
+  description     String?
+  thumbnail       String?
+  archived        Boolean @default(false)
+  private         Boolean @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String
+  priority        Priority @relation(fields: [priorityId], references: [id], onDelete: Cascade)
+  priorityId      Int
+  groups          Group[]
+}
+
+model Group {
+  id              String @id @default(uuid())
+  title           String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  archived        Boolean
+  list            List @relation(fields: [listId], references: [id], onDelete: Cascade)
+  listId          String
+  items           Item[]
+}
+
+model Item {
+  id              String @id @default(uuid())
+  title           String
+  description     String?
+  thumbnail       String?
+  url             String?
+  quantity        Int @default(1)
+  price           Decimal
+  archived        Boolean
+  reserved        Boolean @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  group           Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId         String
+}
+
+model Priority {
+  id              Int @id @default(autoincrement())
+  title           String @unique
+  lists           List[]
+}
