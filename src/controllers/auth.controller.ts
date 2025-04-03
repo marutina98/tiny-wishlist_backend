@@ -67,17 +67,11 @@ class CAuth {
       // Do not omit the password, it has to be compared
 
       const username = req.body.username;
-      const user = await prisma.user.findUnique({
+      const user = await prisma.user.findUniqueOrThrow({
         where: {
           username
         }
       });
-
-      if (!user) {
-        const error = new Error(`User with username "${username}" could not be found.`) as IError;
-        error.status = 409;
-        return next(error);
-      }
 
       // Compare the received rawPassword and the hashedPassword
 
@@ -105,7 +99,7 @@ class CAuth {
       });
 
     } catch (error: unknown) {
-      console.error(error);
+      return next(error);
     }
 
   }
