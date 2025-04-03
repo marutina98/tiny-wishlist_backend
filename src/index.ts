@@ -8,6 +8,10 @@ import RItem from './routes/item.routes';
 import RList from './routes/list.routes';
 import RUser from './routes/user.routes';
 
+// Middlewares
+
+import MErrorHandler from './middlewares/error.middleware';
+
 const app = express();
 const port = 3000;
 
@@ -19,6 +23,8 @@ app.use('/auth', RAuth);
 app.use('/item', RItem);
 app.use('/list', RList);
 app.use('/user', RUser);
+
+app.use(MErrorHandler);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}.`);
