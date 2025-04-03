@@ -39,7 +39,7 @@ class CAuth {
       if (!user) {
         const error = new Error('User could not be created.') as IError;
         error.status = 409;
-        return next(error);
+        throw error;
       }
 
       // Generate the token and return it with the token
@@ -52,7 +52,7 @@ class CAuth {
       });
 
     } catch (error: unknown) {
-      console.error(error);
+      return next(error);
     }
 
   }
@@ -83,7 +83,7 @@ class CAuth {
       if (!isPasswordCorrect) {
         const error = new Error('Password is not correct') as IError;
         error.status = 401;
-        return next(error);
+        throw error;
       }
 
       // Return the user with token
