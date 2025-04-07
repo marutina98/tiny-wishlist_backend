@@ -35,7 +35,17 @@ export default async function MIsGuest (req: Request, res: Response, next: Funct
     }
 
   } catch (error: unknown) {
-    return next();
-  }
+
+    const status = (error as IError).status || 500;
+    const message = (error as IError).message;
+
+    res.status(status).json({
+      message: `ERROR: ${message}`,
+      status: status
+    });
+
+    console.error(error);
+    
+  } 
 
 }

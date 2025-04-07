@@ -52,7 +52,17 @@ export default async function MIsAuthenticated (req: IRequestUser, res: Response
     }
 
   } catch (error: unknown) {
+  
+    const status = (error as IError).status || 500;
+    const message = (error as IError).message;
+
+    res.status(status).json({
+      message: `ERROR: ${message}`,
+      status: status
+    });
+
     console.error(error);
-  }
+    
+  } 
 
 }
