@@ -1,11 +1,11 @@
 import prisma from './../prisma';
-import { verify } from 'jsonwebtoken';
 
 // Types and Interfaces
 
 import { Request, Response } from 'express';
 import IError from '../interfaces/error.interface';
 import IRequestUser from '../interfaces/request-user.interface';
+import IRequestList from '../interfaces/request-list.interface';
 
 class CList {
 
@@ -51,6 +51,9 @@ class CList {
 
   }
 
+  // Create a List with a group called Default
+  // New Items will be added to that list
+
   public async createList(req: IRequestUser, res: Response, next: Function) {
 
     try {
@@ -62,6 +65,42 @@ class CList {
         error.status = 401;
         throw error;
       }
+
+      const data: IRequestList = req.body;
+
+      const list = await prisma.list.create({
+
+        data: {
+
+          userId: user.id,
+          title: data.title,
+          description: data.description ?? '',
+          thumbnail: data.thumbnail ?? '',
+          private: false,
+          archived: false,
+          priorityId: 1,
+          
+          groups: {
+            create: {
+              title: 'Default',
+              archived: false,
+            }
+          }
+
+        },
+
+        include: {
+          priority: true,
+          groups: {
+            include: {
+              items: true,
+            }
+          }
+        }
+
+      });
+
+      res.status(200).json(list);
       
     } catch (error: unknown) {
       return next(error);
