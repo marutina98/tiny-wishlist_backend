@@ -5,7 +5,7 @@ import prisma from './../prisma';
 import { Request, Response } from 'express';
 import IError from '../interfaces/error.interface';
 import IRequestUser from '../interfaces/request-user.interface';
-import IRequestList from '../interfaces/request-list.interface';
+import IRequestPostList from '../interfaces/request-post-list.interface';
 
 class CList {
 
@@ -66,7 +66,7 @@ class CList {
         throw error;
       }
 
-      const data: IRequestList = req.body;
+      const data: IRequestPostList = req.body;
 
       const list = await prisma.list.create({
 
@@ -201,6 +201,14 @@ class CList {
     } catch (error: unknown) {
       return next(error);
     }
+
+  }
+
+  public async changePriority(req: Request, res: Response, next: Function) {
+    
+  }
+
+  public async putList(req: Request, res: Response, next: Function) {
 
   }
 
