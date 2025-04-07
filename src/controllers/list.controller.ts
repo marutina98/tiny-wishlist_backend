@@ -50,6 +50,10 @@ class CList {
 
   }
 
+  public async changeStatus(req: Request, res: Response, next: Function) {
+    
+  }
+
 }
 
 export default new CList();
