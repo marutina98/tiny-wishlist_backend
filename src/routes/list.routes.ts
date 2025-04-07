@@ -16,6 +16,6 @@ import { Request, Response } from 'express';
 const router = express.Router();
 
 router.get('/:id', MList, (req: Request, res: Response, next: Function) => CList.getList(req, res, next));
-router.get('/:id/visibility', MOwnerList, (req: Request, res: Response, next: Function) => CList.changeStatus(req, res, next));
+router.get('/:id/visibility', MOwnerList, (req: Request, res: Response, next: Function) => CList.changeVisibilityStatus(req, res, next));
 
 export default router;
