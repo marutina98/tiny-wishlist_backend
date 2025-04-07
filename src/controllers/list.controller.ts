@@ -92,6 +92,48 @@ class CList {
 
   }
 
+  public async changeArchivalStatus(req: Request, res: Response, next: Function) {
+
+    // Get the list or throw error
+
+    const id = req.params.id;
+
+    if (!id) {
+      const error = (new Error('Valid Id not found.')) as IError;
+      error.status = 404;
+      throw error;
+    }
+
+    // Toggle the value of ogList.archived and return it
+
+    const ogList = await prisma.list.findUniqueOrThrow({
+      where: {
+        id
+      }
+    });
+
+    const list = await prisma.list.update({
+      where: {
+        id
+      },
+      data: {
+        archived: !ogList.archived,
+      },
+      include: {
+        priority: true,
+        groups: {
+          include: {
+            items: true
+          }
+        },
+        user: true
+      }
+    });
+
+    res.status(200).json(list);
+
+  }
+
 }
 
 export default new CList();
