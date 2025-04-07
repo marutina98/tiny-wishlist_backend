@@ -5,7 +5,6 @@ import { verify } from 'jsonwebtoken';
 
 import { Request, Response } from 'express';
 import IError from '../interfaces/error.interface';
-import IDecodedToken from '../interfaces/decoded-token.interface';
 
 class CList {
 
@@ -25,6 +24,9 @@ class CList {
         throw error;
       }
 
+      // I want to return the user that created
+      // the list, instead of fetching them
+
       const list = await prisma.list.findUniqueOrThrow({
         where: {
           id
@@ -35,7 +37,8 @@ class CList {
             include: {
               items: true
             }
-          }
+          },
+          user: true
         }
       });
 
