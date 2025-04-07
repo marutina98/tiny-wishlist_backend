@@ -34,7 +34,9 @@ export default async function MList(req: IRequestUser, res: Response, next: Func
     // is the owner
 
     if (!list.private) {
+      
       next();
+
     } else {
 
       // Get the user from the request
