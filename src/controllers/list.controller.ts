@@ -307,6 +307,8 @@ class CList {
       // if it doesn't, do not add
       // otherwise verify that it's valid
 
+      const title = req.params.title ?? null;
+      const description = req.params.description ?? null;
       const thumbnail = req.params.thumbnail ?? null;
 
       if (thumbnail) {
