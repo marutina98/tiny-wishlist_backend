@@ -53,10 +53,10 @@ class CList {
 
   }
 
-  // Create a List with a group called Default
-  // New Items will be added to that list
-
   public async createList(req: IRequestUser, res: Response, next: Function) {
+
+    // Create a List with a group called Default
+    // New Items will be added to that list
 
     try {
 
