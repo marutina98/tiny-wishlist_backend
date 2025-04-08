@@ -3,10 +3,10 @@ import { verify } from 'jsonwebtoken';
 
 // Types and Interfaces
 
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import IError from '../interfaces/error.interface';
 
-export default async function MIsGuest (req: Request, res: Response, next: Function) {
+export default async function MIsGuest (req: Request, res: Response, next: NextFunction) {
 
   // If the authorization header is null
   // or the token is not valid

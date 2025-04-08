@@ -2,7 +2,7 @@ import prisma from './../prisma';
 
 // Types and Interfaces
 
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import IError from '../interfaces/error.interface';
 import IRequestUser from '../interfaces/request-user.interface';
 import IRequestPostList from '../interfaces/request-post-list.interface';
@@ -11,7 +11,7 @@ import helpersService from '../services/helpers.service';
 
 class CList {
 
-  public async getList(req: Request, res: Response, next: Function) {
+  public async getList(req: Request, res: Response, next: NextFunction) {
 
     try {
 
@@ -53,7 +53,7 @@ class CList {
 
   }
 
-  public async createList(req: IRequestUser, res: Response, next: Function) {
+  public async createList(req: IRequestUser, res: Response, next: NextFunction) {
 
     // Create a List with a group called Default
     // New Items will be added to that list
@@ -160,7 +160,7 @@ class CList {
 
   }
 
-  public async changeVisibilityStatus(req: Request, res: Response, next: Function) {
+  public async changeVisibilityStatus(req: Request, res: Response, next: NextFunction) {
 
     try {
 
@@ -208,7 +208,7 @@ class CList {
 
   }
 
-  public async changeArchivalStatus(req: Request, res: Response, next: Function) {
+  public async changeArchivalStatus(req: Request, res: Response, next: NextFunction) {
 
     try {
 
@@ -256,7 +256,7 @@ class CList {
 
   }
 
-  public async changePriority(req: Request, res: Response, next: Function) {
+  public async changePriority(req: Request, res: Response, next: NextFunction) {
     
     try {
 
@@ -325,7 +325,7 @@ class CList {
 
   }
 
-  public async putList(req: Request, res: Response, next: Function) {
+  public async putList(req: Request, res: Response, next: NextFunction) {
 
     try {
 
@@ -422,7 +422,7 @@ class CList {
 
   }
 
-  public async deleteList(req: Request, res: Response, next: Function) {
+  public async deleteList(req: Request, res: Response, next: NextFunction) {
 
     try {
 

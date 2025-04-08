@@ -3,13 +3,13 @@ import SHelpers from './../services/helpers.service';
 
 // Types and Interfaces
 
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import IError from '../interfaces/error.interface';
 import IUserOptionalPassword from '../interfaces/user-optional-password.interface';
 
 class CAuth {
 
-  public async register(req: Request, res: Response, next: Function)  {
+  public async register(req: Request, res: Response, next: NextFunction)  {
 
     try {
 
@@ -59,7 +59,7 @@ class CAuth {
 
   // Login via Username
 
-  public async login(req: Request, res: Response, next: Function) {
+  public async login(req: Request, res: Response, next: NextFunction) {
 
     try {
 

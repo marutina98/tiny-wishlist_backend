@@ -1,5 +1,5 @@
 
-import { Response } from 'express';
+import { NextFunction, Response } from 'express';
 import prisma from '../prisma';
 
 import IError from '../interfaces/error.interface';
@@ -8,7 +8,7 @@ import IRequestUser from '../interfaces/request-user.interface';
 // Check that the authenticated user is the owner
 // of the list otherwise throw error
 
-export default async function MOwnerList(req: IRequestUser, res: Response, next: Function) {
+export default async function MOwnerList(req: IRequestUser, res: Response, next: NextFunction) {
   
   try {
 

@@ -4,12 +4,12 @@ import { verify } from 'jsonwebtoken';
 // Types and Interfaces
 
 import IError from '../interfaces/error.interface';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import IDecodedToken from '../interfaces/decoded-token.interface';
 
 class CUser {
 
-  public getUser = async (req: Request, res: Response, next: Function) => {
+  public getUser = async (req: Request, res: Response, next: NextFunction) => {
     
     try {
 
@@ -40,7 +40,7 @@ class CUser {
 
   }
 
-  public getAuthenticatedUser = async (req: Request, res: Response, next: Function) => {
+  public getAuthenticatedUser = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
 

@@ -4,12 +4,12 @@ import prisma from '../prisma';
 
 // Types and Interfaces
 
-import { Response } from 'express';
+import { NextFunction, Response } from 'express';
 import IError from '../interfaces/error.interface';
 import IRequestUser from '../interfaces/request-user.interface';
 import IDecodedToken from '../interfaces/decoded-token.interface';
 
-export default async function MIsAuthenticated (req: IRequestUser, res: Response, next: Function) {
+export default async function MIsAuthenticated (req: IRequestUser, res: Response, next: NextFunction) {
 
   // Get Authorization Header
   // Throw error if null

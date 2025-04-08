@@ -1,5 +1,5 @@
 
-import { Response } from 'express';
+import { NextFunction, Response } from 'express';
 import prisma from '../prisma';
 
 import IError from '../interfaces/error.interface';
@@ -9,7 +9,7 @@ import IRequestUser from '../interfaces/request-user.interface';
 // if the list is private check that the authenticated
 // user is the owner
 
-export default async function MList(req: IRequestUser, res: Response, next: Function) {
+export default async function MList(req: IRequestUser, res: Response, next: NextFunction) {
   
   try {
 

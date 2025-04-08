@@ -1,10 +1,10 @@
 import prisma from './../prisma';
 
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 class CGroup {
 
-  public async createGroup() {
+  public async createGroup(req: Request, res: Response, next: NextFunction) {
 
   }
 
