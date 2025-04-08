@@ -7,6 +7,7 @@ import IError from '../interfaces/error.interface';
 import IRequestUser from '../interfaces/request-user.interface';
 import IRequestPostList from '../interfaces/request-post-list.interface';
 import IRequestPutList from '../interfaces/request-put-list.interface';
+import helpersService from '../services/helpers.service';
 
 class CList {
 
@@ -66,6 +67,8 @@ class CList {
         error.status = 401;
         throw error;
       }
+
+      // @todo: Verify that data is valid
 
       const data: IRequestPostList = req.body;
 
@@ -296,12 +299,22 @@ class CList {
       });
 
       // @todo: Check if received params are valid
+      // add them to _data
 
-      const data: IRequestPutList = {
-        title: req.body.title ?? ogList.title,
-        description: req.body.description ?? ogList.description,
-        thumbnail: req.body.thumbnail ?? ogList.thumbnail,
+      const _data: [string, string][] = [];
+
+      // THUMBNAIL: check if it exists
+      // if it doesn't, do not add
+      // otherwise verify that it's valid
+
+      const thumbnail = req.params.thumbnail ?? null;
+
+      if (thumbnail) {
+        const isValidThumbnail = await helpersService.isValidThumbnail(thumbnail);
+        if (isValidThumbnail) _data.push(['thumbnail', thumbnail]);
       }
+
+      const data: IRequestPutList = Object.fromEntries(_data);
 
       const list = await prisma.list.update({
         where: {
