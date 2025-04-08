@@ -68,16 +68,64 @@ class CList {
         throw error;
       }
 
-      // @todo: Verify that data is valid
+      // Check if received params are valid
+      // add them to _data
 
-      const data: IRequestPostList = req.body;
+      const _data: [string, string][] = [];
+
+      const title = req.params.title ?? null;
+      const description = req.params.description ?? null;
+      const thumbnail = req.params.thumbnail ?? null;
+
+      // TITLE and DESCRIPTION
+      // check if they exists and are valid
+      // add a sanitized version of them to _data
+
+      if (title) {
+
+        const isTitleValid = helpersService.checkValidityInput(title);
+        if (isTitleValid) {
+          const sanitizedTitle = helpersService.sanitizeInput(title);
+          _data.push(['title', sanitizedTitle]);
+        }
+
+      }
+
+      if (description) {
+
+        const isDescriptionValid = helpersService.checkValidityInput(title);
+        if (isDescriptionValid) {
+          const sanitizedDescription = helpersService.sanitizeInput(description);
+          _data.push(['description', sanitizedDescription]);
+        }
+
+      }
+
+      // THUMBNAIL: check if it exists
+      // if it doesn't, do not add
+      // otherwise verify that it's valid
+
+      if (thumbnail) {
+        const isValidThumbnail = await helpersService.isValidThumbnail(thumbnail);
+        if (isValidThumbnail) _data.push(['thumbnail', thumbnail]);
+      }
+
+      // Throw error if _data is empty
+
+      if (_data.length === 0) {
+        const error = (new Error('Received Data was not valid.')) as IError;
+        error.status = 400;
+        throw error;
+      }
+
+      const data: IRequestPutList = Object.fromEntries(_data);
 
       const list = await prisma.list.create({
 
         data: {
 
           userId: user.id,
-          title: data.title,
+          title: data.title ?? '',
           description: data.description ?? '',
           thumbnail: data.thumbnail ?? '',
           private: false,
@@ -298,7 +346,7 @@ class CList {
         }
       });
 
-      // @todo: Check if received params are valid
+      // Check if received params are valid
       // add them to _data
 
       const _data: [string, string][] = [];
