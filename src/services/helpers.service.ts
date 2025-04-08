@@ -2,6 +2,8 @@ import bcrypt from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { Image } from 'canvas';
 
+import validator from 'validator';
+
 class SHelpers {
 
   public hashPassword(rawPassword: string, saltRounds: number = 10) {
@@ -20,6 +22,14 @@ class SHelpers {
 
     return new Promise((resolve, reject) => {
 
+      // Check that string is a data uri format
+
+      if (!validator.isDataURI(thumbnail)) {
+        resolve(false);
+      }
+
+      // Check that image is valid
+
       const image = new Image();
 
       image.onload = () => {
@@ -34,6 +44,29 @@ class SHelpers {
 
     });
 
+  }
+
+  public checkValidityInput(_input: string, minLength: number = 1, maxLength: number = 255, regexPattern?: RegExp) {
+
+    const input = validator.trim(_input);
+
+    if (
+      input === '' ||
+      input.length < minLength  ||
+      input.length > maxLength ||
+      (regexPattern && !regexPattern.test(input))
+    ) {
+      return false;
+    }
+
+    return true;
+
+  }
+
+  public sanitizeInput(input: string) {
+    return validator.escape(
+      validator.trim(input)
+    );
   }
 
 }
