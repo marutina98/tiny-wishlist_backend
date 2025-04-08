@@ -6,6 +6,7 @@ import { Request, Response } from 'express';
 import IError from '../interfaces/error.interface';
 import IRequestUser from '../interfaces/request-user.interface';
 import IRequestPostList from '../interfaces/request-post-list.interface';
+import IRequestPutList from '../interfaces/request-put-list.interface';
 
 class CList {
 
@@ -276,6 +277,49 @@ class CList {
   public async putList(req: Request, res: Response, next: Function) {
 
     try {
+
+      const id = req.params.id;
+
+      if (!id) {
+        const error = (new Error('Valid Id not found.')) as IError;
+        error.status = 404;
+        throw error;
+      }
+
+      // Check if list exists
+      // if not found, throw error
+
+      const ogList = await prisma.list.findUniqueOrThrow({
+        where: {
+          id
+        }
+      });
+
+      // @todo: Check if received params are valid
+
+      const data: IRequestPutList = {
+        title: req.body.title ?? ogList.title,
+        description: req.body.description ?? ogList.description,
+        thumbnail: req.body.thumbnail ?? ogList.thumbnail,
+      }
+
+      const list = await prisma.list.update({
+        where: {
+          id
+        },
+        data,
+        include: {
+          priority: true,
+          groups: {
+            include: {
+              items: true
+            }
+          },
+          user: true
+        }
+      });
+
+      res.status(200).json(list);
 
     } catch (error: unknown) {
       return next(error);

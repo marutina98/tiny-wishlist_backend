@@ -19,8 +19,8 @@ model List {
 
 */
 
-export default interface IRequestPostList {
-  title: string,
+export default interface IRequestPutList {
+  title?: string,
   description?: string,
   thumbnail?: string,
 }
