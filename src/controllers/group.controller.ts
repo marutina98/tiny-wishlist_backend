@@ -1,10 +1,67 @@
 import prisma from './../prisma';
+import helpersService from '../services/helpers.service';
 
 import { NextFunction, Request, Response } from 'express';
+import IError from '../interfaces/error.interface';
 
 class CGroup {
 
   public async createGroup(req: Request, res: Response, next: NextFunction) {
+
+    try {
+
+      // Check that list id is valid
+      // otherwise throw error
+
+      const listId = req.body.listId;
+
+      if (!listId) {
+        const error = (new Error('Valid List Id not found.')) as IError;
+        error.status = 404;
+        throw error;
+      }
+
+      await prisma.list.findUniqueOrThrow({
+        where: {
+          id: listId
+        }
+      });
+
+      // Make sure that the title exists and is valid
+
+      const title = req.body.title;
+
+      if (!title) {
+        const error = (new Error('No Title for the Group was provided.')) as IError;
+        error.status = 400;
+        throw error;
+      }
+
+      const isTitleValid = helpersService.checkValidityInput(title);
+
+      if (!isTitleValid) {
+        const error = (new Error('No Valid Title for the Group was provided.')) as IError;
+        error.status = 400;
+        throw error;
+      }
+
+      const sanitizedTitle = helpersService.sanitizeInput(title);
+
+      // Create and return group
+
+      const group = await prisma.group.create({
+        data: {
+          listId,
+          title: sanitizedTitle,
+          archived: false
+        }
+      });
+
+      res.status(200).json(group);
+
+    } catch (error: unknown) {
+      return next(error);
+    }
 
   }
 
