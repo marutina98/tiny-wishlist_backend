@@ -20,5 +20,6 @@ router.post('/', MIsAuthenticated, (req: Request, res: Response, next: Function)
 router.get('/:id', MList, (req: Request, res: Response, next: Function) => CList.getList(req, res, next));
 router.put('/:id/visibility', MOwnerList, (req: Request, res: Response, next: Function) => CList.changeVisibilityStatus(req, res, next));
 router.put('/:id/archival', MOwnerList, (req: Request, res: Response, next: Function) => CList.changeArchivalStatus(req, res, next));
+router.put('/:id/priority', MOwnerList, (req: Request, res: Response, next: Function) => CList.changePriority(req, res, next));
 
 export default router;

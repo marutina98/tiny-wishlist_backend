@@ -206,6 +206,62 @@ class CList {
 
   public async changePriority(req: Request, res: Response, next: Function) {
     
+    try {
+
+      // Get the list or throw error
+
+      const id = req.params.id;
+
+      if (!id) {
+        const error = (new Error('Valid Id not found.')) as IError;
+        error.status = 404;
+        throw error;
+      }
+
+      // Get the priorityId
+      // if missing or invalid throw error
+
+      const priorityId = req.body.priorityId;
+      const isPriorityIdValid = priorityId >= 1 && priorityId <= 3;
+
+      if (!priorityId) {
+        const error = (new Error('Priority Id not found.')) as IError;
+        error.status = 404;
+        throw error;
+      }
+
+      if (!isPriorityIdValid) {
+        const error = (new Error('Priority Id is not valid.')) as IError;
+        error.status = 400;
+        throw error;
+      }
+
+      // Update the priority
+
+      const list = await prisma.list.update({
+        where: {
+          id
+        },
+        data: {
+          priorityId
+        },
+        include: {
+          priority: true,
+          groups: {
+            include: {
+              items: true
+            }
+          },
+          user: true
+        }
+      });
+
+      res.status(200).json(list);
+
+    } catch (error: unknown) {
+      return next(error);
+    }
+
   }
 
   public async putList(req: Request, res: Response, next: Function) {
