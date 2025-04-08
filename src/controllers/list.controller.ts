@@ -236,6 +236,15 @@ class CList {
         throw error;
       }
 
+      // Check if list exists
+      // if not found, throw error
+
+      await prisma.list.findUniqueOrThrow({
+        where: {
+          id
+        }
+      });
+
       // Update the priority
 
       const list = await prisma.list.update({
@@ -265,6 +274,51 @@ class CList {
   }
 
   public async putList(req: Request, res: Response, next: Function) {
+
+    try {
+
+    } catch (error: unknown) {
+      return next(error);
+    }
+
+  }
+
+  public async deleteList(req: Request, res: Response, next: Function) {
+
+    try {
+
+      const id = req.params.id;
+
+      if (!id) {
+        const error = (new Error('Valid Id not found.')) as IError;
+        error.status = 404;
+        throw error;
+      }
+
+      // Check if list exists
+      // if not found, throw error
+
+      await prisma.list.findUniqueOrThrow({
+        where: {
+          id
+        }
+      });
+
+      // Delete list
+
+      await prisma.list.delete({
+        where: {
+          id
+        }
+      });
+
+      res.status(200).json({
+        message: `List with id ${id} was successfully deleted`
+      });
+
+    } catch (error: unknown) {
+      return next(error);
+    }
 
   }
 
