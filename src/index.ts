@@ -4,8 +4,9 @@ import express from 'express';
 // Routes
 
 import RAuth from './routes/auth.routes';
-import RItem from './routes/item.routes';
 import RList from './routes/list.routes';
+import RGroup from './routes/group.routes';
+import RItem from './routes/item.routes';
 import RUser from './routes/user.routes';
 
 // Middlewares
@@ -20,8 +21,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use('/auth', RAuth);
-app.use('/item', RItem);
 app.use('/list', RList);
+app.use('/item', RItem);
+app.use('/group', RGroup);
 app.use('/user', RUser);
 
 app.use(MErrorHandler);
