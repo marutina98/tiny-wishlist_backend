@@ -5,7 +5,6 @@ import prisma from './../prisma';
 import { NextFunction, Request, Response } from 'express';
 import IError from '../interfaces/error.interface';
 import IRequestUser from '../interfaces/request-user.interface';
-import IRequestPostList from '../interfaces/request-post-list.interface';
 import IRequestPutList from '../interfaces/request-put-list.interface';
 import helpersService from '../services/helpers.service';
 
