@@ -24,6 +24,9 @@ class CAuth {
       const data = req.body;
       data.password = hashedPassword;
 
+      // @todo: validate email
+      // throw error otherwise
+
       // Create the user
       // Omit the password
 
