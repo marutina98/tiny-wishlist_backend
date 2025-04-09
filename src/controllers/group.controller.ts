@@ -71,6 +71,42 @@ class CGroup {
 
   public async changeArchivalStatus(req: Request, res: Response, next: NextFunction) {
 
+    try {
+      
+      const id = req.params.id;
+
+      if (!id) {
+        const error = (new Error('Valid Id not found.')) as IError;
+        error.status = 404;
+        throw error;
+      }
+
+      // Check if group exists
+      // if not found, throw error
+
+      const ogGroup = await prisma.group.findUniqueOrThrow({
+        where: {
+          id
+        }
+      });
+
+      // Toggle group's archived status
+
+      const group = await prisma.group.update({
+        where: {
+          id
+        },
+        data: {
+          archived: !ogGroup.archived
+        }
+      });
+
+      res.status(200).json(group);
+
+    } catch (error: unknown) {
+      return next(error);
+    }
+    
   }
 
   public async deleteGroup(req: Request, res: Response, next: NextFunction) {
