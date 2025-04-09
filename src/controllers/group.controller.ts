@@ -76,41 +76,35 @@ class CGroup {
   public async deleteGroup(req: Request, res: Response, next: NextFunction) {
 
     try {
-
-      try {
       
-        const id = req.params.id;
-  
-        if (!id) {
-          const error = (new Error('Valid Id not found.')) as IError;
-          error.status = 404;
-          throw error;
-        }
-  
-        // Check if group exists
-        // if not found, throw error
-  
-        await prisma.group.findUniqueOrThrow({
-          where: {
-            id
-          }
-        });
-  
-        // Delete group
-  
-        await prisma.group.delete({
-          where: {
-            id
-          }
-        });
-  
-        res.status(200).json({
-          message: `Group with id ${id} was successfully deleted`
-        });
-  
-      } catch (error: unknown) {
-        return next(error);
+      const id = req.params.id;
+
+      if (!id) {
+        const error = (new Error('Valid Id not found.')) as IError;
+        error.status = 404;
+        throw error;
       }
+
+      // Check if group exists
+      // if not found, throw error
+
+      await prisma.group.findUniqueOrThrow({
+        where: {
+          id
+        }
+      });
+
+      // Delete group
+
+      await prisma.group.delete({
+        where: {
+          id
+        }
+      });
+
+      res.status(200).json({
+        message: `Group with id ${id} was successfully deleted`
+      });
 
     } catch (error: unknown) {
       return next(error);
