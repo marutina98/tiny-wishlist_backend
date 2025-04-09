@@ -6,6 +6,7 @@ import SHelpers from './../services/helpers.service';
 import { NextFunction, Request, Response } from 'express';
 import IError from '../interfaces/error.interface';
 import IUserOptionalPassword from '../interfaces/user-optional-password.interface';
+import helpersService from './../services/helpers.service';
 
 class CAuth {
 
@@ -26,6 +27,22 @@ class CAuth {
 
       // @todo: validate email
       // throw error otherwise
+
+      const email = data.email;
+
+      if (!email) {
+        const error = new Error('Email was not received.') as IError;
+        error.status = 400;
+        throw error;
+      }
+
+      const isEmailValid = helpersService.checkValidityEmail(email);
+
+      if (!isEmailValid) {
+        const error = new Error('Email was not valid') as IError;
+        error.status = 400;
+        throw error;
+      }
 
       // Create the user
       // Omit the password

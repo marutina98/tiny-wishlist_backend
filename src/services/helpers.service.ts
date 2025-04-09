@@ -46,6 +46,10 @@ class SHelpers {
 
   }
 
+  public checkValidityEmail(email: string) {
+    return validator.isEmail(email);
+  }
+
   public checkValidityInput(_input: string, minLength: number = 1, maxLength: number = 255, regexPattern?: RegExp) {
 
     const input = validator.trim(_input);
