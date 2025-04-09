@@ -8,11 +8,11 @@ import CList from '../controllers/list.controller';
 
 import MList from '../middlewares/list.middleware';
 import MOwnerList from '../middlewares/owner-list.middleware';
+import MIsAuthenticated from '../middlewares/auth.middleware';
 
 // Types and Interfaces
 
 import { NextFunction, Request, Response } from 'express';
-import MIsAuthenticated from '../middlewares/auth.middleware';
 
 const router = express.Router();
 
