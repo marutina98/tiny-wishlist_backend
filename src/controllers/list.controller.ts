@@ -117,7 +117,7 @@ class CList {
         throw error;
       }
 
-      const data: IRequestPutList = Object.fromEntries(_data);
+      const data = Object.fromEntries(_data);
 
       const list = await prisma.list.create({
 

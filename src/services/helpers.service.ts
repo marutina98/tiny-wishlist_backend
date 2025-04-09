@@ -46,6 +46,10 @@ class SHelpers {
 
   }
 
+  public checkValidityURL(url: string) {
+    return validator.isURL(url);
+  }
+
   public checkValidityEmail(email: string) {
     return validator.isEmail(email);
   }
