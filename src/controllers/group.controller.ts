@@ -1,5 +1,5 @@
 import prisma from './../prisma';
-import helpersService from '../services/helpers.service';
+import SHelpers from '../services/helpers.service';
 
 import { NextFunction, Request, Response } from 'express';
 import IError from '../interfaces/error.interface';
@@ -37,7 +37,7 @@ class CGroup {
         throw error;
       }
 
-      const isTitleValid = helpersService.checkValidityInput(title);
+      const isTitleValid = SHelpers.checkValidityInput(title);
 
       if (!isTitleValid) {
         const error = (new Error('No Valid Title for the Group was provided.')) as IError;
@@ -45,7 +45,7 @@ class CGroup {
         throw error;
       }
 
-      const sanitizedTitle = helpersService.sanitizeInput(title);
+      const sanitizedTitle = SHelpers.sanitizeInput(title);
 
       // Create and return group
 
@@ -98,7 +98,7 @@ class CGroup {
         throw error;
       }
 
-      const isTitleValid = helpersService.checkValidityInput(title);
+      const isTitleValid = SHelpers.checkValidityInput(title);
 
       if (!isTitleValid) {
         const error = (new Error('No Valid Title for the Group was provided.')) as IError;
@@ -106,7 +106,7 @@ class CGroup {
         throw error;
       }
 
-      const sanitizedTitle = helpersService.sanitizeInput(title);
+      const sanitizedTitle = SHelpers.sanitizeInput(title);
 
       // Update group
 

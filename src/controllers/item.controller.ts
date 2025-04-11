@@ -1,5 +1,5 @@
 import prisma from './../prisma';
-import helpersService from '../services/helpers.service';
+import SHelpers from '../services/helpers.service';
 
 // Types and Interfaces
 
@@ -51,9 +51,9 @@ class CItem {
 
       if (title) {
 
-        const isTitleValid = helpersService.checkValidityInput(title);
+        const isTitleValid = SHelpers.checkValidityInput(title);
         if (isTitleValid) {
-          const sanitizedTitle = helpersService.sanitizeInput(title);
+          const sanitizedTitle = SHelpers.sanitizeInput(title);
           _data.push(['title', sanitizedTitle]);
         }
 
@@ -65,9 +65,9 @@ class CItem {
 
       if (description) {
 
-        const isDescriptionValid = helpersService.checkValidityInput(title);
+        const isDescriptionValid = SHelpers.checkValidityInput(title);
         if (isDescriptionValid) {
-          const sanitizedDescription = helpersService.sanitizeInput(description);
+          const sanitizedDescription = SHelpers.sanitizeInput(description);
           _data.push(['description', sanitizedDescription]);
         }
 
@@ -78,14 +78,14 @@ class CItem {
       // otherwise verify that it's valid
 
       if (thumbnail) {
-        const isValidThumbnail = await helpersService.isValidThumbnail(thumbnail);
+        const isValidThumbnail = await SHelpers.isValidThumbnail(thumbnail);
         if (isValidThumbnail) _data.push(['thumbnail', thumbnail]);
       }
 
       // URL, Quantity and Price
 
       if (url) {
-        const isValidURL = await helpersService.checkValidityURL(url);
+        const isValidURL = await SHelpers.checkValidityURL(url);
         if (isValidURL) _data.push(['url', url]);
       }
 
@@ -172,9 +172,9 @@ class CItem {
 
       if (title) {
 
-        const isTitleValid = helpersService.checkValidityInput(title);
+        const isTitleValid = SHelpers.checkValidityInput(title);
         if (isTitleValid) {
-          const sanitizedTitle = helpersService.sanitizeInput(title);
+          const sanitizedTitle = SHelpers.sanitizeInput(title);
           _data.push(['title', sanitizedTitle]);
         }
 
@@ -182,9 +182,9 @@ class CItem {
 
       if (description) {
 
-        const isDescriptionValid = helpersService.checkValidityInput(title);
+        const isDescriptionValid = SHelpers.checkValidityInput(title);
         if (isDescriptionValid) {
-          const sanitizedDescription = helpersService.sanitizeInput(description);
+          const sanitizedDescription = SHelpers.sanitizeInput(description);
           _data.push(['description', sanitizedDescription]);
         }
 
@@ -195,14 +195,14 @@ class CItem {
       // otherwise verify that it's valid
 
       if (thumbnail) {
-        const isValidThumbnail = await helpersService.isValidThumbnail(thumbnail);
+        const isValidThumbnail = await SHelpers.isValidThumbnail(thumbnail);
         if (isValidThumbnail) _data.push(['thumbnail', thumbnail]);
       }
 
       // URL, Quantity and Price
 
       if (url) {
-        const isValidURL = await helpersService.checkValidityURL(url);
+        const isValidURL = await SHelpers.checkValidityURL(url);
         if (isValidURL) _data.push(['url', url]);
       }
 

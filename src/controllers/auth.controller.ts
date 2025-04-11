@@ -6,7 +6,6 @@ import SHelpers from './../services/helpers.service';
 import { NextFunction, Request, Response } from 'express';
 import IError from '../interfaces/error.interface';
 import IUserOptionalPassword from '../interfaces/user-optional-password.interface';
-import helpersService from './../services/helpers.service';
 
 class CAuth {
 
@@ -36,7 +35,7 @@ class CAuth {
         throw error;
       }
 
-      const isEmailValid = helpersService.checkValidityEmail(email);
+      const isEmailValid = SHelpers.checkValidityEmail(email);
 
       if (!isEmailValid) {
         const error = new Error('Email was not valid') as IError;
