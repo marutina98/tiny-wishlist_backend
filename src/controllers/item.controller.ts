@@ -46,6 +46,130 @@ class CItem {
       // check if they exists and are valid
       // add a sanitized version of them to _data
 
+      // If there is no title throw error
+      // the title is not optional
+
+      if (title) {
+
+        const isTitleValid = helpersService.checkValidityInput(title);
+        if (isTitleValid) {
+          const sanitizedTitle = helpersService.sanitizeInput(title);
+          _data.push(['title', sanitizedTitle]);
+        }
+
+      } else {
+        const error = (new Error('Valid Title not found.')) as IError;
+        error.status = 400;
+        throw error;
+      }
+
+      if (description) {
+
+        const isDescriptionValid = helpersService.checkValidityInput(title);
+        if (isDescriptionValid) {
+          const sanitizedDescription = helpersService.sanitizeInput(description);
+          _data.push(['description', sanitizedDescription]);
+        }
+
+      }
+
+      // THUMBNAIL: check if it exists
+      // if it doesn't, do not add
+      // otherwise verify that it's valid
+
+      if (thumbnail) {
+        const isValidThumbnail = await helpersService.isValidThumbnail(thumbnail);
+        if (isValidThumbnail) _data.push(['thumbnail', thumbnail]);
+      }
+
+      // URL, Quantity and Price
+
+      if (url) {
+        const isValidURL = await helpersService.checkValidityURL(url);
+        if (isValidURL) _data.push(['url', url]);
+      }
+
+      if (quantity && typeof quantity === 'number') {
+        const isValidQuantity = quantity > 0;
+        if (isValidQuantity) _data.push(['quantity', quantity]);
+      }
+
+      if (price && typeof price === 'number') {
+        const isValidPrice = price > 0;
+        if (isValidPrice) {
+          const fixedPrice = parseInt(price).toFixed(2);
+          _data.push(['price', fixedPrice]);
+        }
+      }
+
+      // Throw error if _data is empty
+
+      if (_data.length === 0) {
+        const error = (new Error('Received Data was not valid.')) as IError;
+        error.status = 400;
+        throw error;
+      }
+
+      // Add groupId after checking that the received
+      // data is valid
+
+      _data.push(['groupId', groupId]);
+
+      const data = Object.fromEntries(_data);
+
+      // add group id to _data after checking that
+      // the rest of data is valid
+
+      // Create and return item
+
+      const item = await prisma.item.create({
+        data
+      });
+
+      res.status(200).json(item);
+
+    } catch (error: unknown) {
+      return next(error);
+    }
+
+  }
+
+  public async putItem(req: Request, res: Response, next: NextFunction) {
+
+    try {
+
+      // Get the item or throw error
+      
+      const id = req.params.id;
+
+      if (!id) {
+        const error = (new Error('Valid Id not found.')) as IError;
+        error.status = 404;
+        throw error;
+      }
+
+      await prisma.item.findUniqueOrThrow({
+        where: {
+          id
+        }
+      })
+
+      // Check if received params are valid
+      // add them to _data
+
+      const _data = [];
+
+      const title = req.params.title ?? null;
+      const description = req.params.description ?? null;
+      const thumbnail = req.params.thumbnail ?? null;
+      const url = req.params.url ?? null;
+      const quantity = req.params.quantity ?? null;
+      const price = req.params.price ?? null;
+
+      // TITLE and DESCRIPTION
+      // check if they exists and are valid
+      // add a sanitized version of them to _data
+
       if (title) {
 
         const isTitleValid = helpersService.checkValidityInput(title);
@@ -103,30 +227,21 @@ class CItem {
         throw error;
       }
 
-      _data.push(['groupId', groupId]);
-
       const data = Object.fromEntries(_data);
 
       // add group id to _data after checking that
       // the rest of data is valid
 
-      // Create and return group
+      // Update and return item
 
-      const item = await prisma.item.create({
+      const item = await prisma.item.update({
+        where: {
+          id
+        },
         data
       });
 
       res.status(200).json(item);
-
-    } catch (error: unknown) {
-      return next(error);
-    }
-
-  }
-
-  public async putItem(req: Request, res: Response, next: NextFunction) {
-
-    try {
 
     } catch (error: unknown) {
       return next(error);
