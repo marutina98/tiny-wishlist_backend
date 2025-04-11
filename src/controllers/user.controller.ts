@@ -109,9 +109,47 @@ class CUser {
 
   }
 
-  public async putUser(req: Request, res: Response, next: NextFunction) {
+  public async putUser(req: IRequestUser, res: Response, next: NextFunction) {
 
     try {
+
+      // Find user and update
+
+      const _user = req.user;
+      
+      if (!_user) {
+        const error = new Error('User is not authenticated.') as IError;
+        error.status = 401;
+        throw error;
+      }
+
+      // The user can update: email, username and password
+
+      const email = req.body.email ?? null;
+      const username = req.body.username ?? null;
+      const password = req.body.password ?? null;
+
+      const _data: [string, string][] = [];
+
+      // Validate email, username and/or password
+      // when present
+
+      if (email) {
+
+      }
+
+      if (username) {
+
+      }
+
+      if (password) {
+
+      }
+
+      // Check if data is valid
+      // otherwise throw error
+
+      const data = Object.fromEntries(_data);
 
     } catch(error: unknown) {
       return next(error);

@@ -72,9 +72,9 @@ class CList {
 
       const _data: [string, string][] = [];
 
-      const title = req.params.title ?? null;
-      const description = req.params.description ?? null;
-      const thumbnail = req.params.thumbnail ?? null;
+      const title = req.body.title ?? null;
+      const description = req.body.description ?? null;
+      const thumbnail = req.body.thumbnail ?? null;
 
       // TITLE and DESCRIPTION
       // check if they exists and are valid
@@ -350,9 +350,9 @@ class CList {
 
       const _data: [string, string][] = [];
 
-      const title = req.params.title ?? null;
-      const description = req.params.description ?? null;
-      const thumbnail = req.params.thumbnail ?? null;
+      const title = req.body.title ?? null;
+      const description = req.body.description ?? null;
+      const thumbnail = req.body.thumbnail ?? null;
 
       // TITLE and DESCRIPTION
       // check if they exists and are valid
