@@ -137,11 +137,12 @@ class CUser {
       // when present
 
       if (email) {
-
+        const isEmailValid = SHelpers.checkValidityEmail(email);
+        if (isEmailValid) _data.push(['email', email]);
       }
 
       if (username) {
-
+        
       }
 
       if (password) {
