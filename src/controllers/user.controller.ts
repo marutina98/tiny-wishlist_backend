@@ -1,5 +1,6 @@
 import prisma from './../prisma';
 import { verify } from 'jsonwebtoken';
+import SHelpers from './../services/helpers.service';
 
 // Types and Interfaces
 
@@ -7,6 +8,7 @@ import { NextFunction, Request, Response } from 'express';
 import IError from '../interfaces/error.interface';
 import IDecodedToken from '../interfaces/decoded-token.interface';
 import IRequestUser from '../interfaces/request-user.interface';
+import IUserOptionalPassword from '../interfaces/user-optional-password.interface';
 
 class CUser {
 
@@ -149,7 +151,22 @@ class CUser {
       // Check if data is valid
       // otherwise throw error
 
+      if (_data.length === 0) {
+        const error = (new Error('Received Data was not valid.')) as IError;
+        error.status = 400;
+        throw error;
+      }
+
       const data = Object.fromEntries(_data);
+
+      // Update user
+
+      const user = await prisma.user.update({
+        where: {
+          id: _user.id,
+        },
+        data
+      })
 
     } catch(error: unknown) {
       return next(error);
@@ -174,11 +191,32 @@ class CUser {
       await prisma.user.delete({
         where: {
           id: user.id
+        },
+        omit: { 
+          password: true
+        },
+        include: {
+          lists: {
+            include: {
+              priority: true,
+              groups: {
+                include: {
+                  items: true
+                }
+              }
+            }
+          }
         }
       });
 
+      // Generate new token
+      // Return user with token
+
+      const token = SHelpers.generateJWT(user.email);
+
       res.status(200).json({
-        message: 'User was successfully deleted.',
+        ...user,
+        token
       });
 
     } catch(error: unknown) {

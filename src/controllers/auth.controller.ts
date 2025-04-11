@@ -109,7 +109,7 @@ class CAuth {
       // Return the user with token
       // but first remove the password
 
-      const token = SHelpers.generateJWT(user.username);
+      const token = SHelpers.generateJWT(user.email);
 
       delete (user as IUserOptionalPassword).password;
 
