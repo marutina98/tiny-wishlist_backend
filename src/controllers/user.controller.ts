@@ -3,13 +3,14 @@ import { verify } from 'jsonwebtoken';
 
 // Types and Interfaces
 
-import IError from '../interfaces/error.interface';
 import { NextFunction, Request, Response } from 'express';
+import IError from '../interfaces/error.interface';
 import IDecodedToken from '../interfaces/decoded-token.interface';
+import IRequestUser from '../interfaces/request-user.interface';
 
 class CUser {
 
-  public async getUser (req: Request, res: Response, next: NextFunction) {
+  public async getUser(req: Request, res: Response, next: NextFunction) {
     
     try {
 
@@ -40,7 +41,7 @@ class CUser {
 
   }
 
-  public async getAuthenticatedUser (req: Request, res: Response, next: NextFunction) {
+  public async getAuthenticatedUser(req: Request, res: Response, next: NextFunction) {
 
     try {
 
@@ -108,7 +109,45 @@ class CUser {
 
   }
 
-  
+  public async putUser(req: Request, res: Response, next: NextFunction) {
+
+    try {
+
+    } catch(error: unknown) {
+      return next(error);
+    }
+
+  }
+
+  public async deleteUser(req: IRequestUser, res: Response, next: NextFunction) {
+
+    try {
+
+      // Found user and delete
+
+      const user = req.user;
+      
+      if (!user) {
+        const error = new Error('User is not authenticated.') as IError;
+        error.status = 401;
+        throw error;
+      }
+
+      await prisma.user.delete({
+        where: {
+          id: user.id
+        }
+      });
+
+      res.status(200).json({
+        message: 'User was successfully deleted.',
+      });
+
+    } catch(error: unknown) {
+      return next(error);
+    }
+
+  }
 
 }
 
