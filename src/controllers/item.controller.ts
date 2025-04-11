@@ -177,6 +177,35 @@ class CItem {
 
     try {
 
+      // Get the item or throw error
+      
+      const id = req.params.id;
+
+      if (!id) {
+        const error = (new Error('Valid Id not found.')) as IError;
+        error.status = 404;
+        throw error;
+      }
+
+      const ogItem = await prisma.item.findUniqueOrThrow({
+        where: {
+          id
+        }
+      });
+
+      // Toggle the value of ogItem.reserved and return it
+
+      const item = await prisma.item.update({
+        where: {
+          id
+        },
+        data: {
+          reserved: !ogItem.reserved
+        }
+      });
+
+      res.status(200).json(item);
+
     } catch (error: unknown) {
       return next(error);
     }
