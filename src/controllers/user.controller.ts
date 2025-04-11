@@ -9,7 +9,7 @@ import IDecodedToken from '../interfaces/decoded-token.interface';
 
 class CUser {
 
-  public getUser = async (req: Request, res: Response, next: NextFunction) => {
+  public async getUser (req: Request, res: Response, next: NextFunction) {
     
     try {
 
@@ -40,7 +40,7 @@ class CUser {
 
   }
 
-  public getAuthenticatedUser = async (req: Request, res: Response, next: NextFunction) => {
+  public async getAuthenticatedUser (req: Request, res: Response, next: NextFunction) {
 
     try {
 
@@ -107,6 +107,8 @@ class CUser {
     }
 
   }
+
+  
 
 }
 
