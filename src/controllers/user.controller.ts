@@ -163,35 +163,9 @@ class CUser {
 
       const user = await prisma.user.update({
         where: {
-          id: _user.id,
+          id: _user.id
         },
-        data
-      })
-
-    } catch(error: unknown) {
-      return next(error);
-    }
-
-  }
-
-  public async deleteUser(req: IRequestUser, res: Response, next: NextFunction) {
-
-    try {
-
-      // Found user and delete
-
-      const user = req.user;
-      
-      if (!user) {
-        const error = new Error('User is not authenticated.') as IError;
-        error.status = 401;
-        throw error;
-      }
-
-      await prisma.user.delete({
-        where: {
-          id: user.id
-        },
+        data,
         omit: { 
           password: true
         },
@@ -217,6 +191,36 @@ class CUser {
       res.status(200).json({
         ...user,
         token
+      });
+
+    } catch(error: unknown) {
+      return next(error);
+    }
+
+  }
+
+  public async deleteUser(req: IRequestUser, res: Response, next: NextFunction) {
+
+    try {
+
+      // Found user and delete
+
+      const user = req.user;
+      
+      if (!user) {
+        const error = new Error('User is not authenticated.') as IError;
+        error.status = 401;
+        throw error;
+      }
+
+      await prisma.user.delete({
+        where: {
+          id: user.id
+        }
+      });
+
+      res.status(200).json({
+        message: 'User was successfully deleted.',
       });
 
     } catch(error: unknown) {
