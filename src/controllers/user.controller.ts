@@ -146,9 +146,21 @@ class CUser {
         if (isUsernameValid) _data.push(['username', username]);
       }
 
+      // Check that the password is strong enough
+
       if (password && password.length > 0) {
+
+        const isStrongPassword = SHelpers.checkValidityPassword(password);
+        
+        if (!isStrongPassword) {
+          const error = new Error('Password is not strong enough.') as IError;
+          error.status = 400;
+          throw error;
+        }
+
         const hashedPassword = await SHelpers.hashPassword(password);
         _data.push(['password', hashedPassword]);
+
       }
 
       // Check if data is valid

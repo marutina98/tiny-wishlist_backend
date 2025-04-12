@@ -46,6 +46,14 @@ class SHelpers {
 
   }
 
+  // Default Settings: { minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1,
+  // returnScore: false, pointsPerUnique: 1, pointsPerRepeat: 0.5, pointsForContainingLower: 10, pointsForContainingUpper: 10,
+  // pointsForContainingNumber: 10, pointsForContainingSymbol: 10 }
+
+  public checkValidityPassword(password: string) {
+    return validator.isStrongPassword(password);
+  }
+
   public checkValidityURL(url: string) {
     return validator.isURL(url);
   }
@@ -57,7 +65,7 @@ class SHelpers {
   // The username can only contain letters and numbers
 
   public checkValidityUsername(username: string) {
-    const regex = /^[0-9A-Za-z]{6,16}$/;
+    const regex = /^[0-9A-Za-z]$/;
     return regex.test(username);
   }
 

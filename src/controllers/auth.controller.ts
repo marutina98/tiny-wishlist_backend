@@ -13,9 +13,19 @@ class CAuth {
 
     try {
 
+      // Check that the password is strong
       // Hash the received raw password
 
       const rawPassword = req.body.password;
+
+      const isStrongPassword = SHelpers.checkValidityPassword(rawPassword);
+
+      if (!isStrongPassword) {
+        const error = new Error('Password is not strong enough.') as IError;
+        error.status = 400;
+        throw error;
+      }
+
       const hashedPassword = await SHelpers.hashPassword(rawPassword);
 
       // Replace the received raw password
