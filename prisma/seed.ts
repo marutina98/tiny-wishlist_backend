@@ -1,35 +1,13 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import SSeeder from './../src/services/seeder.service';
 
 async function main() {
 
-  const priorities: string[] = [
-    'Low',
-    'Medium',
-    'High'
-  ];
-
-  for (let priority of priorities) {
-
-    try {
-      await prisma.priority.create({
-        data: {
-          title: priority
-        }
-      });
-    } catch (error: unknown) {
-      throw error;
-    }
-
-  }
+  await SSeeder.generatePriorities();
 
 }
 
 main().then(async () => {
-  await prisma.$disconnect();
+  await SSeeder.disconnectPrisma();
 }).catch(async (error: unknown) => {
-  console.error(error);
-  await prisma.$disconnect();
-  process.exit(1);
+  await SSeeder.disconnectPrisma(error);
 });
