@@ -6,7 +6,7 @@ import validator from 'validator';
 
 class SHelpers {
 
-  public randomBoolean() {
+  public getRandomBoolean() {
     return Math.random() >= 0.5;
   }
   

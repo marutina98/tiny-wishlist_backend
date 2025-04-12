@@ -23,6 +23,9 @@ class SSeeder {
       const lists = await this.seedLists(user);
       for (let list of lists) {
         const groups = await this.seedGroups(list);
+        for (let group of groups) {
+          await this.seedItems(group);
+        }
       }
     }
 
@@ -92,8 +95,8 @@ class SSeeder {
       }
 
       const randomPriorityId = Math.floor(Math.random() * 3) + 1;
-      const randomArchivalStatus = SHelpers.randomBoolean();
-      const randomPrivateStatus = SHelpers.randomBoolean();
+      const randomArchivalStatus = SHelpers.getRandomBoolean();
+      const randomPrivateStatus = SHelpers.getRandomBoolean();
 
       const title = faker.lorem.sentence();
       const description = faker.lorem.paragraph();
@@ -118,11 +121,83 @@ class SSeeder {
 
   }
 
-  public async seedGroups(list: List) {
+  public async seedGroups(list: List, num: number = 5) {
+
+    // Create 'Main' Group plus *num* of groups
+
+    const groups: Group[] = [];
+
+    const mainGroup = await prisma.group.create({
+      data: {
+        listId: list.id,
+        title: 'Main',
+        archived: false,
+      }
+    });
+
+    groups.push(mainGroup);
+
+    for (let i = 0; i <= num; i++) {
+
+      const randomArchivalStatus = SHelpers.getRandomBoolean();
+      const title = faker.lorem.sentence();
+
+      const data = {
+        listId: list.id,
+        archived: randomArchivalStatus,
+        title
+      }
+      
+      const group = await prisma.group.create({ data });
+      groups.push(group);
+
+    }
+
+    return groups;
 
   }
 
-  public async seedItems(group: Group) {
+  public async seedItems(group: Group, num: number = 5) {
+
+    const items: Item[] = [];
+
+    for (let i = 0; i <= num; i++) {
+
+      const thumbnailOptions = {
+        width: 300,
+        height: 300,
+      }
+
+      const randomReservedStatus =SHelpers.getRandomBoolean();
+      const randomArchivalStatus = SHelpers.getRandomBoolean();
+      const randomPrivateStatus = SHelpers.getRandomBoolean();
+
+      const title = faker.lorem.sentence();
+      const description = faker.lorem.paragraph();
+      const thumbnail = faker.image.dataUri(thumbnailOptions);
+      const url = faker.internet.url();
+      const quantity = faker.number.int({ min: 1});
+      const price = faker.number.float({ min: 1, fractionDigits: 2 });
+
+      const data = {
+        groupId: group.id,
+        archived: randomArchivalStatus,
+        private: randomPrivateStatus,
+        reserved: randomReservedStatus,
+        title,
+        description,
+        thumbnail,
+        url,
+        quantity,
+        price
+      }
+
+      const item = await prisma.item.create({ data });
+      items.push(item);
+
+    }
+
+    return items;
 
   }
 
