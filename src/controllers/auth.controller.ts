@@ -28,6 +28,7 @@ class CAuth {
       // throw error otherwise
 
       const email = data.email;
+      const username = data.username;
 
       if (!email) {
         const error = new Error('Email was not received.') as IError;
@@ -39,6 +40,22 @@ class CAuth {
 
       if (!isEmailValid) {
         const error = new Error('Email was not valid') as IError;
+        error.status = 400;
+        throw error;
+      }
+
+      // validate username
+
+      if (!username) {
+        const error = new Error('Username was not received.') as IError;
+        error.status = 400;
+        throw error;
+      }
+
+      const isUsernameValid = SHelpers.checkValidityUsername(username);
+
+      if (!isUsernameValid) {
+        const error = new Error('Username was not valid') as IError;
         error.status = 400;
         throw error;
       }

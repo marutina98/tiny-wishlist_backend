@@ -54,6 +54,13 @@ class SHelpers {
     return validator.isEmail(email);
   }
 
+  // The username can only contain letters and numbers
+
+  public checkValidityUsername(username: string) {
+    const regex = /^[0-9A-Za-z]{6,16}$/;
+    return regex.test(username);
+  }
+
   public checkValidityInput(_input: string, minLength: number = 1, maxLength: number = 255, regexPattern?: RegExp) {
 
     const input = validator.trim(_input);

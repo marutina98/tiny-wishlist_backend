@@ -136,17 +136,19 @@ class CUser {
       // Validate email, username and/or password
       // when present
 
-      if (email) {
+      if (email && email.length > 0) {
         const isEmailValid = SHelpers.checkValidityEmail(email);
         if (isEmailValid) _data.push(['email', email]);
       }
 
-      if (username) {
-        
+      if (username && username.length > 0) {
+        const isUsernameValid = SHelpers.checkValidityUsername(username);
+        if (isUsernameValid) _data.push(['username', username]);
       }
 
-      if (password) {
-
+      if (password && password.length > 0) {
+        const hashedPassword = await SHelpers.hashPassword(password);
+        _data.push(['password', hashedPassword]);
       }
 
       // Check if data is valid
