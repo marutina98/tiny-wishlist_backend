@@ -2,7 +2,7 @@ import SSeeder from './../src/services/seeder.service';
 
 async function main() {
 
-  await SSeeder.generatePriorities();
+  await SSeeder.seed();
 
 }
 

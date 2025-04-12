@@ -2,7 +2,15 @@ import prisma from '../prisma';
 
 class SSeeder {
 
-  public async generatePriorities() {
+  public async seed() {
+
+    // Seed 'Low', 'Medium' and 'High' priorities
+
+    await this.seedPriorities();
+
+  }
+
+  public async seedPriorities() {
     
     const priorities: string[] = [
       'Low',
@@ -26,6 +34,22 @@ class SSeeder {
 
   }
 
+  public async seedUsers() {
+
+  }
+
+  public async seedLists() {
+
+  }
+
+  public async seedGroups() {
+
+  }
+
+  public async seedItems() {
+
+  }
+
   public async disconnectPrisma(error: unknown = null) {
 
     if (error) {
@@ -35,7 +59,7 @@ class SSeeder {
     } else {
       await prisma.$disconnect();
     }
-    
+
   }
 
 }
