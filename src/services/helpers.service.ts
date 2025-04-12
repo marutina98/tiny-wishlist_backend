@@ -63,9 +63,10 @@ class SHelpers {
   }
 
   // The username can only contain letters and numbers
+  // Min Length 8 characters
 
   public checkValidityUsername(username: string) {
-    const regex = /^[0-9A-Za-z]$/;
+    const regex = /^[A-Za-z0-9]{8,}$/;
     return regex.test(username);
   }
 
