@@ -176,13 +176,12 @@ class SSeeder {
       const description = faker.lorem.paragraph();
       const thumbnail = faker.image.dataUri(thumbnailOptions);
       const url = faker.internet.url();
-      const quantity = faker.number.int({ min: 1});
+      const quantity = faker.number.int({ min: 1, max: 9999 });
       const price = faker.number.float({ min: 1, fractionDigits: 2 });
 
       const data = {
         groupId: group.id,
         archived: randomArchivalStatus,
-        private: randomPrivateStatus,
         reserved: randomReservedStatus,
         title,
         description,
