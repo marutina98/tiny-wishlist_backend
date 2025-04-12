@@ -1,5 +1,6 @@
+import { faker, th } from '@faker-js/faker';
 import prisma from '../prisma';
-import { faker } from '@faker-js/faker';
+import SHelpers from './helpers.service';
 
 import { User, Priority, List, Group, Item } from '@prisma/client';
 
@@ -15,10 +16,14 @@ class SSeeder {
 
     const users = await this.seedUsers();
 
-    // Seed Lists for each user
+    // Seed Lists for each user with groups
+    // and items
 
     for (let user of users) {
       const lists = await this.seedLists(user);
+      for (let list of lists) {
+        const groups = await this.seedGroups(list);
+      }
     }
 
   }
@@ -81,7 +86,31 @@ class SSeeder {
 
     for (let i = 0; i <= num; i++) {
 
+      const thumbnailOptions = {
+        width: 300,
+        height: 300,
+      }
 
+      const randomPriorityId = Math.floor(Math.random() * 3) + 1;
+      const randomArchivalStatus = SHelpers.randomBoolean();
+      const randomPrivateStatus = SHelpers.randomBoolean();
+
+      const title = faker.lorem.sentence();
+      const description = faker.lorem.paragraph();
+      const thumbnail = faker.image.dataUri(thumbnailOptions);
+
+      const data = {
+        userId: user.id,
+        priorityId: randomPriorityId,
+        archived: randomArchivalStatus,
+        private: randomPrivateStatus,
+        title,
+        description,
+        thumbnail
+      }
+
+      const list = await prisma.list.create({ data });
+      lists.push(list);
 
     }
     

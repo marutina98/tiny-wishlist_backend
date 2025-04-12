@@ -6,6 +6,10 @@ import validator from 'validator';
 
 class SHelpers {
 
+  public randomBoolean() {
+    return Math.random() >= 0.5;
+  }
+  
   public hashPassword(rawPassword: string, saltRounds: number = 10) {
     return bcrypt.hash(rawPassword, saltRounds);
   }
