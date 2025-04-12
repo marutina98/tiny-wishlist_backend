@@ -2,7 +2,7 @@ import { faker, th } from '@faker-js/faker';
 import prisma from '../prisma';
 import SHelpers from './helpers.service';
 
-import { User, Priority, List, Group, Item } from '@prisma/client';
+import { User, List, Group, Item } from '@prisma/client';
 
 class SSeeder {
 
