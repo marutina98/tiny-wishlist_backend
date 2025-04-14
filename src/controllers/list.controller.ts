@@ -275,6 +275,8 @@ class CList {
       const priorityId = req.body.priorityId;
       const isPriorityIdValid = priorityId >= 1 && priorityId <= 3;
 
+      console.log(priorityId);
+
       if (!priorityId) {
         const error = (new Error('Priority Id not found.')) as IError;
         error.status = 404;

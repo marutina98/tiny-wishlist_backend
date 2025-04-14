@@ -22,5 +22,6 @@ router.put('/:id', MIsAuthenticated, MOwnerList, (req: Request, res: Response, n
 router.put('/:id/visibility', MIsAuthenticated, MOwnerList, (req: Request, res: Response, next: NextFunction) => CList.changeVisibilityStatus(req, res, next));
 router.put('/:id/archival', MIsAuthenticated, MOwnerList, (req: Request, res: Response, next: NextFunction) => CList.changeArchivalStatus(req, res, next));
 router.put('/:id/priority', MIsAuthenticated, MOwnerList, (req: Request, res: Response, next: NextFunction) => CList.changePriority(req, res, next));
+router.delete('/:id', MIsAuthenticated, MOwnerList, (req: Request, res: Response, next: NextFunction) => CList.deleteList(req, res, next));
 
 export default router;
