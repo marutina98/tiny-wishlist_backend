@@ -68,10 +68,12 @@ class SSeeder {
         lastName: faker.person.lastName(),
       }
 
+      const password = await SHelpers.hashPassword('password');
+
       const data = {
         email: faker.internet.email(options),
         username: faker.internet.username(options),
-        password: 'password'
+        password
       }
 
       const user = await prisma.user.create({ data });
