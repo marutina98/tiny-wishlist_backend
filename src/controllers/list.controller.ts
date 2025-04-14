@@ -339,9 +339,18 @@ class CList {
       // Check if list exists
       // if not found, throw error
 
-      const ogList = await prisma.list.findUniqueOrThrow({
+      await prisma.list.findUniqueOrThrow({
         where: {
           id
+        },
+        include: {
+          priority: true,
+          groups: {
+            include: {
+              items: true
+            }
+          },
+          user: true
         }
       });
 
@@ -401,7 +410,7 @@ class CList {
         where: {
           id
         },
-        data,
+        data: data,
         include: {
           priority: true,
           groups: {
