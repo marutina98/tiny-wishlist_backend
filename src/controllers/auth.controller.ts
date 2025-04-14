@@ -77,6 +77,18 @@ class CAuth {
         data,
         omit: {
           password: true
+        },
+        include: {
+          lists: {
+            include: {
+              priority: true,
+              groups: {
+                include: {
+                  items: true
+                }
+              }
+            }
+          }
         }
       });
 
@@ -116,6 +128,18 @@ class CAuth {
       const user = await prisma.user.findUniqueOrThrow({
         where: {
           username
+        },
+        include: {
+          lists: {
+            include: {
+              priority: true,
+              groups: {
+                include: {
+                  items: true
+                }
+              }
+            }
+          }
         }
       });
 
