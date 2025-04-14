@@ -35,12 +35,12 @@ class CItem {
 
       const _data = [];
 
-      const title = req.params.title ?? null;
-      const description = req.params.description ?? null;
-      const thumbnail = req.params.thumbnail ?? null;
-      const url = req.params.url ?? null;
-      const quantity = req.params.quantity ?? null;
-      const price = req.params.price ?? null;
+      const title = req.body.title ?? null;
+      const description = req.body.description ?? null;
+      const thumbnail = req.body.thumbnail ?? null;
+      const url = req.body.url ?? null;
+      const quantity = req.body.quantity ?? null;
+      const price = req.body.price ?? null;
 
       // TITLE and DESCRIPTION
       // check if they exists and are valid
@@ -52,6 +52,7 @@ class CItem {
       if (title) {
 
         const isTitleValid = SHelpers.checkValidityInput(title);
+
         if (isTitleValid) {
           const sanitizedTitle = SHelpers.sanitizeInput(title);
           _data.push(['title', sanitizedTitle]);
@@ -97,7 +98,7 @@ class CItem {
       if (price && typeof price === 'number') {
         const isValidPrice = price > 0;
         if (isValidPrice) {
-          const fixedPrice = parseInt(price).toFixed(2);
+          const fixedPrice = price.toFixed(2);
           _data.push(['price', fixedPrice]);
         }
       }
@@ -159,12 +160,12 @@ class CItem {
 
       const _data = [];
 
-      const title = req.params.title ?? null;
-      const description = req.params.description ?? null;
-      const thumbnail = req.params.thumbnail ?? null;
-      const url = req.params.url ?? null;
-      const quantity = req.params.quantity ?? null;
-      const price = req.params.price ?? null;
+      const title = req.body.title ?? null;
+      const description = req.body.description ?? null;
+      const thumbnail = req.body.thumbnail ?? null;
+      const url = req.body.url ?? null;
+      const quantity = req.body.quantity ?? null;
+      const price = req.body.price ?? null;
 
       // TITLE and DESCRIPTION
       // check if they exists and are valid
@@ -214,7 +215,7 @@ class CItem {
       if (price && typeof price === 'number') {
         const isValidPrice = price > 0;
         if (isValidPrice) {
-          const fixedPrice = parseInt(price).toFixed(2);
+          const fixedPrice = price.toFixed(2);
           _data.push(['price', fixedPrice]);
         }
       }
