@@ -1,9 +1,11 @@
 
 import { NextFunction, Response } from 'express';
 import prisma from '../prisma';
+import { verify } from 'jsonwebtoken';
 
 import IError from '../interfaces/error.interface';
 import IRequestUser from '../interfaces/request-user.interface';
+import IDecodedToken from '../interfaces/decoded-token.interface';
 
 // If the list is public show directly
 // if the list is private check that the authenticated
@@ -39,27 +41,50 @@ export default async function MList(req: IRequestUser, res: Response, next: Next
 
     } else {
 
-      // Get the user from the request
-      // Check that the user is the owner
-      // return the route or throw error
+      // Get authenticated user from token
+      // check that the user is the owner
 
-      const user = req.user;
-
-      if (!user) {
-        const error = new Error('User is not authenticated.') as IError;
-        error.status = 401;
-        throw error;
+      const authorizationHeader = req.headers.authorization ?? null;
+      
+      if (!authorizationHeader) {
+        const error = (new Error('User is not authenticated')) as IError;
+        error.status = 403;
       }
 
-      const isOwner = user.id === list.userId;
-
-      if (!isOwner) {
-        const error = new Error('Authenticated User is not Owner.') as IError;
-        error.status = 401;
-        throw error;
+      const token = authorizationHeader?.split(' ')[1];
+      
+      if (!token) {
+        const error = (new Error('Token is not present.')) as IError;
+        error.status = 403;
       }
+      
+      if (token) {
+        
+        const decodedToken = verify(token, 'JWT_SECRET') as unknown as IDecodedToken;
+          
+        const user = await prisma.user.findUnique({
+          where: {
+            email: decodedToken.email
+          }
+        });
 
-      next();
+        if (!user) {
+          const error = new Error('User is not authenticated.') as IError;
+          error.status = 401;
+          throw error;
+        }
+
+        const isOwner = user.id === list.userId;
+
+        if (!isOwner) {
+          const error = new Error('Authenticated User is not Owner.') as IError;
+          error.status = 401;
+          throw error;
+        }
+
+        next();
+
+      }
 
     }
 
