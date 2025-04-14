@@ -12,37 +12,6 @@ import IUserOptionalPassword from '../interfaces/user-optional-password.interfac
 
 class CUser {
 
-  public async getUser(req: Request, res: Response, next: NextFunction) {
-    
-    try {
-
-      const id = req.params.id;
-
-      if (!id) {
-        const error = (new Error('Valid Id not found.')) as IError;
-        error.status = 404;
-        throw error;
-      }
-
-      // Get User via Id and Omit password
-
-      const user = await prisma.user.findUniqueOrThrow({
-        where: {
-          id
-        },
-        omit: {
-          password: true
-        }
-      });
-
-      res.status(200).json(user);
-
-    } catch (error: unknown) {
-      return next(error);
-    }
-
-  }
-
   public async getAuthenticatedUser(req: Request, res: Response, next: NextFunction) {
 
     try {
