@@ -86,6 +86,10 @@ export default async function MList(req: IRequestUser, res: Response, next: Next
 
       }
 
+      const error = new Error('List could not be accessed.') as IError;
+      error.status = 401;
+      throw error;
+
     }
 
   } catch (error: unknown) {
