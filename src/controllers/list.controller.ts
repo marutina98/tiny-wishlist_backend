@@ -29,7 +29,7 @@ class CList {
       // I want to return the user that created
       // the list, instead of fetching them
 
-      const list = await prisma.list.findUniqueOrThrow({
+      const list = await prisma.list.findUnique({
         where: {
           id
         },
@@ -43,6 +43,12 @@ class CList {
           user: true
         }
       });
+
+      if (!list) {
+        res.status(404).json({
+          message: 'Error: List was not found'
+        });
+      }
 
       res.status(200).json(list);
 
