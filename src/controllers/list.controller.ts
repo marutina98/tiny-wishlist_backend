@@ -40,7 +40,11 @@ class CList {
               items: true
             }
           },
-          user: true
+          user: {
+            omit: {
+              password: true
+            }
+          }
         }
       });
 
@@ -147,6 +151,11 @@ class CList {
         },
 
         include: {
+          user: {
+            omit: {
+              password: true
+            }
+          },
           priority: true,
           groups: {
             include: {
@@ -201,7 +210,11 @@ class CList {
               items: true
             }
           },
-          user: true
+          user: {
+            omit: {
+              password: true
+            }
+          }
         }
       });
 
