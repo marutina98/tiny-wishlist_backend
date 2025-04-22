@@ -68,11 +68,15 @@ class SSeeder {
         lastName: faker.person.lastName(),
       }
 
+      // Make default password "strong"
+      // Remove special characters from username
+
       const password = await SHelpers.hashPassword('Password@123');
+      const username = faker.internet.username(options).replace(/[^a-zA-Z0-9 ]/g, '');
 
       const data = {
         email: faker.internet.email(options),
-        username: faker.internet.username(options),
+        username,
         password
       }
 
