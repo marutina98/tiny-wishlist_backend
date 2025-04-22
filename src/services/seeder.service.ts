@@ -68,7 +68,7 @@ class SSeeder {
         lastName: faker.person.lastName(),
       }
 
-      const password = await SHelpers.hashPassword('password');
+      const password = await SHelpers.hashPassword('Password@123');
 
       const data = {
         email: faker.internet.email(options),
@@ -172,7 +172,6 @@ class SSeeder {
 
       const randomReservedStatus =SHelpers.getRandomBoolean();
       const randomArchivalStatus = SHelpers.getRandomBoolean();
-      const randomPrivateStatus = SHelpers.getRandomBoolean();
 
       const title = faker.lorem.sentence();
       const description = faker.lorem.paragraph();
