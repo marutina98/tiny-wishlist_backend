@@ -167,6 +167,8 @@ class CItem {
       const quantity = req.body.quantity ?? null;
       const price = req.body.price ?? null;
       const groupId = req.body.groupId ?? null;
+      const archived = req.body.archived ?? null;
+      const reserved = req.body.reserved ?? null;
 
       // TITLE and DESCRIPTION
       // check if they exists and are valid
@@ -235,6 +237,9 @@ class CItem {
 
       }
 
+      if (typeof archived === 'boolean') _data.push(['archived', archived]);
+      if (typeof reserved === 'boolean') _data.push(['reserved', reserved]);
+
       // Throw error if _data is empty
 
       if (_data.length === 0) {
@@ -244,6 +249,8 @@ class CItem {
       }
 
       const data = Object.fromEntries(_data);
+
+      console.log(data);
 
       // add group id to _data after checking that
       // the rest of data is valid
