@@ -166,6 +166,7 @@ class CItem {
       const url = req.body.url ?? null;
       const quantity = req.body.quantity ?? null;
       const price = req.body.price ?? null;
+      const groupId = req.body.groupId ?? null;
 
       // TITLE and DESCRIPTION
       // check if they exists and are valid
@@ -218,6 +219,20 @@ class CItem {
           const fixedPrice = price.toFixed(2);
           _data.push(['price', fixedPrice]);
         }
+      }
+
+      if (groupId) {
+
+        // check that groupId is valid
+
+        prisma.group.findUniqueOrThrow({
+          where: {
+            id: groupId
+          }
+        });
+
+        _data.push(['groupId', groupId]);
+
       }
 
       // Throw error if _data is empty
