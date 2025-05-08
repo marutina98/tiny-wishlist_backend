@@ -61,6 +61,8 @@ export default async function MList(req: IRequestUser, res: Response, next: Next
       if (token) {
         
         const decodedToken = verify(token, 'JWT_SECRET') as unknown as IDecodedToken;
+
+        console.log(decodedToken);
           
         const user = await prisma.user.findUnique({
           where: {
@@ -84,11 +86,13 @@ export default async function MList(req: IRequestUser, res: Response, next: Next
 
         next();
 
-      }
+      } else {
 
-      const error = new Error('List could not be accessed.') as IError;
-      error.status = 401;
-      throw error;
+        const error = new Error('List could not be accessed.') as IError;
+        error.status = 401;
+        throw error;
+
+      }
 
     }
 
